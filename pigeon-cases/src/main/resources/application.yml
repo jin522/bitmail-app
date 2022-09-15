@@ -1,0 +1,26 @@
+server:
+  port: ${PORT:22333}
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: bitmail
+  datasource:
+    # 支持pgsql、mysql等其他数据库,【 】为需要被替换掉的ip、端口号、数据库名
+    url: jdbc:postgresql://【127.0.0.1】:【5432】/【bitmail】
+    username: 【root】
+    password: 【root】
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+mybatis:
+  type-aliases-package: cn.dayutec.pigeon.*.mapper
+  configuration:
+    map-underscore-to-camel-case: true
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml
+logging:
+  file:
+    name: ../logs/bitmail-cases.log
+  config: ../conf/logback.xml

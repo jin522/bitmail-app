@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.dayutec.pigeon.mapper.CarQRCodeMapper">
+    <insert id="insertOrUpdateCarToken">
+        insert into move_car (car_token,user_id, push_token, licence_num, create_time)
+        values (#{carToken},#{userId}, #{pushToken}, #{licence}, now()) on conflict(user_id) do
+        update set push_token = #{pushToken}, car_token = #{carToken},licence_num = #{licence};
+    </insert>
+    <update id="updateInformCountByToken">
+        update move_car
+        set inform_count = inform_count + 1,
+            inform_time  = #{newInformTime}
+        where car_token = #{carToken}
+    </update>
+    <update id="updateInitInformCountByToken">
+        update move_car
+        set inform_count = 1,
+            inform_time  = #{newInformTime}
+        where car_token = #{carToken}
+    </update>
+
+    <select id="selectInformByCarToken" resultType="cn.dayutec.pigeon.entity.InformInfo">
+        select push_token, licence_num, inform_time, inform_count
+        from move_car
+        where car_token = #{carToken}
+    </select>
+</mapper>
